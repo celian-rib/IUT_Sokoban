@@ -14,12 +14,19 @@ public abstract class MapObject {
         PLAYER,
     }
     public static HashMap<ObjectType, Character> typeCharacters = new HashMap<ObjectType, Character>(){{
-        put(ObjectType.EMPTY, '.');
+        put(ObjectType.EMPTY, ' ');
         put(ObjectType.WALL, '#');
         put(ObjectType.BOX, 'C');
         put(ObjectType.DESTINATION, 'x');
         put(ObjectType.PLAYER, 'P');
     }};
+    // public static HashMap<ObjectType, Character> typeCharacters = new HashMap<ObjectType, Character>(){{
+    //     put(ObjectType.EMPTY, ' ');
+    //     put(ObjectType.WALL, '▓');
+    //     put(ObjectType.BOX, 'C');
+    //     put(ObjectType.DESTINATION, 'x');
+    //     put(ObjectType.PLAYER, '웃');
+    // }};
 
     public final ObjectType TYPE;
     protected final Vector2 position;
