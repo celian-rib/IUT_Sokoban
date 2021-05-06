@@ -44,6 +44,10 @@ public abstract class MapObject {
 
     @Override
     public String toString() {
-        return typeCharacters.get(TYPE).toString();
+        return position.toString() + "  [" + typeCharacters.get(TYPE) + "]";
+    }
+
+    public MapObject createPositionedCopy(Vector2 position) throws Exception {
+        throw new Exception("Impossible copy on object of type " + TYPE);
     }
 }

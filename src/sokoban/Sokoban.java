@@ -25,26 +25,28 @@ public class Sokoban {
             gameLoop(map);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            for(StackTraceElement s : e.getStackTrace())
+            for (StackTraceElement s : e.getStackTrace())
                 System.out.println(s.toString());
         }
     }
 
     public static void gameLoop(Map map) throws Exception {
-        Player player = map.getMapPlayer();
 
-        if(player == null)
-            throw new NoPlayerException("No player found on map");
-        
         boolean gameEnded = false;
-        while(!gameEnded){
+        while (!gameEnded) {
+
+            Player player = map.getMapPlayer();
+
+            if (player == null)
+                throw new NoPlayerException("No player found on map");
+
             map.draw();
             System.out.println("Give a direction : U D R L");
 
             Scanner scanner = new Scanner(System.in);
             char input = scanner.nextLine().trim().toUpperCase().charAt(0);
 
-            if(!Vector2.CHAR_DIRECTION.containsKey(input)){
+            if (!Vector2.CHAR_DIRECTION.containsKey(input)) {
                 System.out.println("Invalid input");
                 continue;
             }
@@ -53,9 +55,8 @@ public class Sokoban {
             try {
                 player.moov(direction, map);
             } catch (InvalidMoovException e) {
+                System.out.println(e.getMessage());
                 continue;
-            } catch (Exception e) {
-                throw e;
             }
         }
     }
