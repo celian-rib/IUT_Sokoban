@@ -1,12 +1,19 @@
-package sokoban;
+package sokoban.map;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MapFromFileBuilder implements MapBuilder {
+import sokoban.exceptions.BuilderException;
+import sokoban.map.mapObject.Box;
+import sokoban.map.mapObject.Destination;
+import sokoban.map.mapObject.Empty;
+import sokoban.map.mapObject.MapObject;
+import sokoban.map.mapObject.Player;
+import sokoban.map.mapObject.Wall;
 
+public class MapFromFileBuilder implements MapBuilder {
     String filePath;
 
     public MapFromFileBuilder(String filePath) {
@@ -18,6 +25,7 @@ public class MapFromFileBuilder implements MapBuilder {
 
         try (Scanner scanner = new Scanner(new File(filePath))) {
             int rowCount = -1;
+            boolean mapHasPlayer = false;
             while (scanner.hasNextLine()) {
                 char[] ligne = scanner.nextLine().toCharArray();
 
@@ -31,19 +39,22 @@ public class MapFromFileBuilder implements MapBuilder {
 
                 for (int i = 0; i < ligne.length; i++) {
                     int currentLigneIndex = rawMap.size() - 1;
-                    switch (ligne[i]) {
+                    switch (Character.toLowerCase(ligne[i])) {
                         default:
                             throw new BuilderException("Unexpected char [" + ligne[i] + "] in the file at : " + filePath);
                         case '.':
-                            rawMap.get(currentLigneIndex)[i] = null;
+                            rawMap.get(currentLigneIndex)[i] = new Empty(i, currentLigneIndex);
                             break;
                         case 'x':
                             rawMap.get(currentLigneIndex)[i] = new Destination(i, currentLigneIndex);
                             break;
-                        case 'P':
-                            rawMap.get(currentLigneIndex)[i] = null;
+                        case 'p':
+                            if(mapHasPlayer)
+                                throw new BuilderException("A map cannot have more than one player in the file at : " + filePath);
+                            mapHasPlayer = true;
+                            rawMap.get(currentLigneIndex)[i] = new Player(i, currentLigneIndex);
                             break;
-                        case 'C':
+                        case 'c':
                             rawMap.get(currentLigneIndex)[i] = new Box(i, currentLigneIndex);
                             break;
                         case '#':
