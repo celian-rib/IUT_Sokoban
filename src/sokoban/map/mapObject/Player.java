@@ -22,7 +22,7 @@ public class Player extends MapObject implements MoovableObject {
 
     @Override
     public void moov(Vector2 direction, Map map) throws Exception {
-        if(!map.moovAllowed(this, direction))
+        if(!map.handleMoovPosibility(this, direction))
             throw new InvalidMoovException("This moov is impossible");
         map.hardSwapObjects(position, direction);
     }

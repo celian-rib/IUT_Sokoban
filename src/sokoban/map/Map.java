@@ -1,5 +1,6 @@
 package sokoban.map;
 
+import java.lang.ProcessBuilder.Redirect.Type;
 import java.util.HashSet;
 
 import sokoban.Vector2;
@@ -37,13 +38,31 @@ public class Map {
         map[object.getPosition().y][object.getPosition().x] = object;
     }
 
-    public boolean moovAllowed(MoovableObject object, Vector2 direction) {
-        MapObject origin = object.getMapObject();
-        Vector2 predictedPosition = origin.getPosition().add(direction);
+    public boolean handleMoovPosibility(MoovableObject object, Vector2 direction) throws Exception {
+        MapObject origin = object.getMapObject(); // Transform MoovableObject in its MapObject instance
+        Vector2 predictedPosition = origin.getPosition().add(direction); // Position where we want to moov
         MapObject objectAtPredictedPosition = getObjectAtPosition(predictedPosition);
-        if (objectAtPredictedPosition == null)
+
+        if (objectAtPredictedPosition == null) // Not on map
             return false;
-        return (objectAtPredictedPosition.TYPE == MapObject.ObjectType.EMPTY);
+
+        // Moov is going on an empty space (This is correct)
+        if (objectAtPredictedPosition.TYPE == MapObject.ObjectType.EMPTY || objectAtPredictedPosition.TYPE == MapObject.ObjectType.DESTINATION)
+            return true;
+
+        // If the wanted position is moovable -> the moov if still posssible as long as
+        // we can push this moovable object
+        if (objectAtPredictedPosition instanceof MoovableObject) {
+            MoovableObject pushable = (MoovableObject) objectAtPredictedPosition;
+            // We check if the moov is allowed for the box, the recursion will check if a
+            // box can push a box and more ...
+            boolean boxMoovAllowed = handleMoovPosibility(pushable, direction);
+            if (boxMoovAllowed)
+                pushable.moov(direction, this); // We push this pushable
+            return boxMoovAllowed;
+        }
+
+        return false;
     }
 
     public void hardSwapObjects(Vector2 origin, Vector2 direction) throws Exception {
@@ -68,7 +87,7 @@ public class Map {
     }
 
     public Player getMapPlayer() {
-        /** @TODO Memoïze */ 
+        /** @TODO Memoïze */
         return getMapSet().stream().filter(o -> o != null).filter(o -> o.getClass() == Player.class)
                 .map(Player.class::cast).findFirst().orElse(null);
     }
