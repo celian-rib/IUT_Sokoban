@@ -15,6 +15,10 @@ public abstract class MoovableObject extends MapObject {
         super(x, y, type);
     }
 
+    public boolean isOnDestination() {
+        return isOnDestination;
+    }
+
     public void moov(Vector2 direction, Map map) throws Exception {
         if (!map.handleMoovPosibility(this, direction)) {
             throw new InvalidMoovException("This moov is impossible");

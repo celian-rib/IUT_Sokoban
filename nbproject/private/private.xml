@@ -3,6 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/MapFromFileBuilder.java</file>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/Player.java</file>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/MapObject.java</file>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/MoovableObject.java</file>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/Box.java</file>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/Map.java</file>
             <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/Sokoban.java</file>
         </group>
     </open-files>

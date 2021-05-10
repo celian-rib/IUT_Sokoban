@@ -1,6 +1,7 @@
 package sokoban.map;
 
 import java.lang.ProcessBuilder.Redirect.Type;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import sokoban.Vector2;
@@ -90,6 +91,8 @@ public class Map {
     }
     
     public boolean hasEmptyDestination() {
+        if(getMapPlayer().isOnDestination())
+            return true;
         return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.DESTINATION).count() > 0;
     }
 
@@ -101,8 +104,7 @@ public class Map {
     public HashSet<MapObject> getMapSet() {
         HashSet<MapObject> set = new HashSet<>();
         for (MapObject[] objs : map)
-            for (MapObject obj : objs)
-                set.add(obj);
+            set.addAll(Arrays.asList(objs));
         return set;
     }
 }

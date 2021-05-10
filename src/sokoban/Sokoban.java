@@ -19,7 +19,7 @@ public class Sokoban {
      */
     public static void main(String[] args) {
         //MapFromFileBuilder builder = new MapFromFileBuilder("C:\\Users\\celia\\Desktop\\sokoban\\MapFile3.txt");
-        MapFromFileBuilder builder = new MapFromFileBuilder("\\\\iut.bx1\\Etudiants\\Home\\criboulet\\Desktop\\sokoban\\MapFile3.txt");
+        MapFromFileBuilder builder = new MapFromFileBuilder("\\\\iut.bx1\\Etudiants\\Home\\criboulet\\Desktop\\sokoban\\MapFile2.txt");
 
         try {
             Map map = new Map(builder);
@@ -38,7 +38,7 @@ public class Sokoban {
             Player player = map.getMapPlayer();
 
             if (player == null)
-                throw new NoPlayerException("No player found on map");
+                throw new NoPlayerException("Error : no player found on map");
 
             map.draw();
             System.out.println("Give a direction : U D R L");
