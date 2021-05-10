@@ -85,9 +85,16 @@ public class Map {
             return false;
         return true;
     }
+    
+    public boolean hasBox() {
+        return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.BOX).count() > 0;
+    }
+    
+    public boolean hasEmptyDestination() {
+        return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.DESTINATION).count() > 0;
+    }
 
     public Player getMapPlayer() {
-        /** @TODO Memoïze */
         return getMapSet().stream().filter(o -> o != null).filter(o -> o.getClass() == Player.class)
                 .map(Player.class::cast).findFirst().orElse(null);
     }

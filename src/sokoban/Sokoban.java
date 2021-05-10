@@ -18,7 +18,8 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MapFromFileBuilder builder = new MapFromFileBuilder("C:\\Users\\celia\\Desktop\\sokoban\\MapFile3.txt");
+        //MapFromFileBuilder builder = new MapFromFileBuilder("C:\\Users\\celia\\Desktop\\sokoban\\MapFile3.txt");
+        MapFromFileBuilder builder = new MapFromFileBuilder("\\\\iut.bx1\\Etudiants\\Home\\criboulet\\Desktop\\sokoban\\MapFile3.txt");
 
         try {
             Map map = new Map(builder);
@@ -32,8 +33,7 @@ public class Sokoban {
 
     public static void gameLoop(Map map) throws Exception {
 
-        boolean gameEnded = false;
-        while (!gameEnded) {
+        while (map.hasEmptyDestination()) {
 
             Player player = map.getMapPlayer();
 
@@ -45,7 +45,7 @@ public class Sokoban {
 
             Scanner scanner = new Scanner(System.in);
             char input = scanner.nextLine().trim().toUpperCase().charAt(0);
-
+            
             if (!Vector2.CHAR_DIRECTION.containsKey(input)) {
                 System.out.println("Invalid input");
                 continue;
