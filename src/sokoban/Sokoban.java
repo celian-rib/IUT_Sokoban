@@ -4,7 +4,10 @@ import java.util.Scanner;
 
 import sokoban.exceptions.InvalidMoovException;
 import sokoban.exceptions.NoPlayerException;
+import sokoban.map.HighDetailsMapDrawer;
+import sokoban.map.LowDetailsMapDrawer;
 import sokoban.map.Map;
+import sokoban.map.MapDrawer;
 import sokoban.map.MapFromFileBuilder;
 import sokoban.map.mapObject.Player;
 
@@ -20,9 +23,10 @@ public class Sokoban {
     public static void main(String[] args) {
         //MapFromFileBuilder builder = new MapFromFileBuilder("C:\\Users\\celia\\Desktop\\sokoban\\MapFile3.txt");
         MapFromFileBuilder builder = new MapFromFileBuilder("\\\\iut.bx1\\Etudiants\\Home\\criboulet\\Desktop\\sokoban\\MapFile2.txt");
-
+        MapDrawer drawer = new HighDetailsMapDrawer();
+        
         try {
-            Map map = new Map(builder);
+            Map map = new Map(drawer, builder);
             gameLoop(map);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -44,7 +48,10 @@ public class Sokoban {
             System.out.println("Give a direction : U D R L");
 
             Scanner scanner = new Scanner(System.in);
-            char input = scanner.nextLine().trim().toUpperCase().charAt(0);
+            String inputString = scanner.nextLine().trim().toUpperCase();
+            if(inputString.length() == 0)
+                continue;
+            char input = inputString.charAt(0);
             
             if (!Vector2.CHAR_DIRECTION.containsKey(input)) {
                 System.out.println("Invalid input");
@@ -59,5 +66,7 @@ public class Sokoban {
                 continue;
             }
         }
+
+        map.draw();
     }
 }

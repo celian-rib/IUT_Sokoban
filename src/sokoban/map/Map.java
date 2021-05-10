@@ -13,18 +13,16 @@ import sokoban.map.mapObject.Player;
 
 public class Map {
 
+    private final MapDrawer drawer;
     private MapObject[][] map;
 
-    public Map(MapBuilder builder) throws BuilderException {
+    public Map(MapDrawer drawer, MapBuilder builder) throws BuilderException {
         this.map = builder.build();
+        this.drawer = drawer;
     }
 
     public void draw() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++)
-                map[i][j].draw();
-            System.out.println();
-        }
+        drawer.draw(map);
     }
 
     public MapObject getObjectAtPosition(Vector2 position) {
