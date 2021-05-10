@@ -19,27 +19,27 @@ public class Sokoban {
      */
     public static void main(String[] args) {
 
-        try (MapDatabase database = new MapDatabase()) {
-            MapDatabaseAdministration adminPanel = new MapDatabaseAdministration(database);
-            adminPanel.drawAdministrationMenu();
-        } catch (Exception e) {
-            System.err.println(e);
-            System.exit(1);
-        }
-
-        // MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
-
-        // // MapDrawer drawer = new LowDetailsMapDrawer();
-        // MapDrawer drawer = new HighDetailsMapDrawer();
-
-        // try {
-        //     Map map = new Map(drawer, builder);
-        //     gameLoop(map);
+        // try (MapDatabase database = new MapDatabase()) {
+        //     MapDatabaseAdministration adminPanel = new MapDatabaseAdministration(database);
+        //     adminPanel.drawAdministrationMenu();
         // } catch (Exception e) {
-        //     System.err.println(e.getMessage());
-        //     for (StackTraceElement s : e.getStackTrace())
-        //         System.err.println(s.toString());
+        //     System.err.println(e);
+        //     System.exit(1);
         // }
+
+        MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
+
+        // MapDrawer drawer = new LowDetailsMapDrawer();
+        MapDrawer drawer = new HighDetailsMapDrawer();
+
+        try {
+            Map map = new Map(drawer, builder);
+            gameLoop(map);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            for (StackTraceElement s : e.getStackTrace())
+                System.err.println(s.toString());
+        }
     }
 
     public static void gameLoop(Map map) throws NoPlayerException, InvalidPositionException, InterruptedException {
