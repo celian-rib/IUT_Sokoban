@@ -6,6 +6,7 @@
 package sokoban.map;
 
 import java.util.HashMap;
+import sokoban.map.mapObject.MoovableObject;
 
 import sokoban.map.mapObject.MapObject;
 
@@ -17,41 +18,21 @@ public class HighDetailsMapDrawer implements MapDrawer {
 
     private static String mapString;
 
-    // private static enum WALL_TYPE {
-    // TOP, BOTTOM, RIGHT, LEFT, TOP_RIGHT
-    // }
-
-    // § are the white spaces
-    // private static String bottomWall = "§§§§§\n§§§§§\n-----";
-    // private static String topWall = "-----\n§§§§§\n§§§§§";
-    // private static String leftWall = "|§§§§\n|§§§§\n|§§§§";
-    // private static String rightWall = "§§§§|\n§§§§|\n§§§§|";
-    private static String wallString = "#####";
-    private static String playerString = "  O  \n /|\\ \n / \\ ";
-    // private static String boxString = ;
-
     private HashMap<MapObject.ObjectType, String> objectsStrings = new HashMap<MapObject.ObjectType,String>() {{
         put(MapObject.ObjectType.BOX, "⌜---⌝\n|OOO|\n⌞---⌟");
         put(MapObject.ObjectType.PLAYER, "  O  \n /|\\ \n / \\ ");
-        put(MapObject.ObjectType.EMPTY, "     \n     \n     ");
+        put(MapObject.ObjectType.EMPTY, "     \n  .  \n     ");
         put(MapObject.ObjectType.WALL, "#####\n#####\n#####");
         put(MapObject.ObjectType.DESTINATION, "\\   /\n  X  \n/   \\");
     }};
-
-    /**
- * 3x5
--------------------
-|  O   ####
-| /|\  #--#
-| / \  #### |____|
--------------------
- */
-
-    MapObject[][] map;
+   
+    private HashMap<MapObject.ObjectType, String> hasDestinationMoovablesStrings = new HashMap<MapObject.ObjectType,String>() {{
+        put(MapObject.ObjectType.BOX, "⌜---⌝\n|OXO|\n⌞---⌟");
+        put(MapObject.ObjectType.PLAYER, "\\ O /\n /|\\ \n// \\\\");
+    }};
 
     @Override
     public void draw(MapObject[][] map) {
-        this.map = map;
         mapString = "";
         for (int i = 0; i < map.length; i++) {
             drawLine(map[i]);
@@ -62,13 +43,16 @@ public class HighDetailsMapDrawer implements MapDrawer {
     private void drawLine(MapObject[] line) {
         for (int i = 0; i < 3; i++) {
             for (MapObject obj : line) {
+                if(obj instanceof MoovableObject) {
+                    MoovableObject moovable = (MoovableObject) obj;
+                    if(moovable.isOnDestination()) {
+                        mapString += hasDestinationMoovablesStrings.get(obj.TYPE).split("\n")[i];
+                        continue;
+                    }
+                }
                 mapString += objectsStrings.get(obj.TYPE).split("\n")[i];
             }
             mapString += "\n";
         }
     }
-
-    // private static void getPlayerCell(int ligne) {
-
-    // }
 }

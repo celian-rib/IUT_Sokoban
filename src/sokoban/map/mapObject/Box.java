@@ -1,9 +1,6 @@
 package sokoban.map.mapObject;
 
 import sokoban.Vector2;
-import sokoban.exceptions.InvalidMoovException;
-import sokoban.map.Map;
-import sokoban.map.mapObject.MapObject.ObjectType;
 
 public class Box extends MoovableObject {
 
@@ -17,7 +14,7 @@ public class Box extends MoovableObject {
     }
 
     @Override
-    public MapObject createPositionedCopy(Vector2 position) throws Exception {
+    public MapObject createPositionedCopy(Vector2 position) {
         return new Box(position, isOnDestination);
     }
 }

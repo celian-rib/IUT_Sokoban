@@ -12,7 +12,7 @@ public class Empty extends MapObject {
     }
 
     @Override
-    public MapObject createPositionedCopy(Vector2 position) throws Exception {
+    public MapObject createPositionedCopy(Vector2 position) {
         return new Empty(position);
     }
 }

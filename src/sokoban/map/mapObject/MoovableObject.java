@@ -2,6 +2,7 @@ package sokoban.map.mapObject;
 
 import sokoban.Vector2;
 import sokoban.exceptions.InvalidMoovException;
+import sokoban.exceptions.InvalidPositionException;
 import sokoban.map.Map;
 
 public abstract class MoovableObject extends MapObject {
@@ -19,10 +20,9 @@ public abstract class MoovableObject extends MapObject {
         return isOnDestination;
     }
 
-    public void moov(Vector2 direction, Map map) throws Exception {
-        if (!map.handleMoovPosibility(this, direction)) {
-            throw new InvalidMoovException("This moov is impossible");
-        }
+    public void moov(Vector2 direction, Map map) throws InvalidMoovException, InvalidPositionException, UnsupportedOperationException {
+        if (!map.handleMoovPosibility(this, direction))
+            throw new InvalidMoovException("You can't go in this direction...");
 
         Vector2 oldDestinationPosition = null;
 
@@ -39,8 +39,7 @@ public abstract class MoovableObject extends MapObject {
             map.hardSwapObjects(position, direction);
         }
 
-        if (oldDestinationPosition != null) {
+        if (oldDestinationPosition != null)
             map.setObjectOnMap(new Destination(oldDestinationPosition));
-        }
     }
 }

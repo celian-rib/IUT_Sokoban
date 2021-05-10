@@ -1,15 +1,12 @@
 package sokoban;
 
 import java.util.Scanner;
+import java.util.concurrent.*;
 
-import sokoban.exceptions.InvalidMoovException;
-import sokoban.exceptions.NoPlayerException;
-import sokoban.map.HighDetailsMapDrawer;
-import sokoban.map.LowDetailsMapDrawer;
-import sokoban.map.Map;
-import sokoban.map.MapDrawer;
-import sokoban.map.MapFromFileBuilder;
-import sokoban.map.mapObject.Player;
+import sokoban.exceptions.*;
+import sokoban.map.mapDatabase.*;
+import sokoban.map.*;
+import sokoban.map.mapObject.*;
 
 /**
  *
@@ -21,52 +18,79 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //MapFromFileBuilder builder = new MapFromFileBuilder("C:\\Users\\celia\\Desktop\\sokoban\\MapFile3.txt");
-        MapFromFileBuilder builder = new MapFromFileBuilder("\\\\iut.bx1\\Etudiants\\Home\\criboulet\\Desktop\\sokoban\\MapFile2.txt");
-        MapDrawer drawer = new HighDetailsMapDrawer();
-        
-        try {
-            Map map = new Map(drawer, builder);
-            gameLoop(map);
+
+        try (MapDatabase database = new MapDatabase()) {
+            MapDatabaseAdministration adminPanel = new MapDatabaseAdministration(database);
+            adminPanel.drawAdministrationMenu();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            for (StackTraceElement s : e.getStackTrace())
-                System.out.println(s.toString());
+            System.err.println(e);
+            System.exit(1);
         }
+
+        // MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
+
+        // // MapDrawer drawer = new LowDetailsMapDrawer();
+        // MapDrawer drawer = new HighDetailsMapDrawer();
+
+        // try {
+        //     Map map = new Map(drawer, builder);
+        //     gameLoop(map);
+        // } catch (Exception e) {
+        //     System.err.println(e.getMessage());
+        //     for (StackTraceElement s : e.getStackTrace())
+        //         System.err.println(s.toString());
+        // }
     }
 
-    public static void gameLoop(Map map) throws Exception {
+    public static void gameLoop(Map map) throws NoPlayerException, InvalidPositionException, InterruptedException {
 
+        boolean showTutorial = true;
+        String errorDialog = null;
+
+        map.draw();
+    
         while (map.hasEmptyDestination()) {
-
-            Player player = map.getMapPlayer();
-
-            if (player == null)
-                throw new NoPlayerException("Error : no player found on map");
-
-            map.draw();
-            System.out.println("Give a direction : U D R L");
+           
+            if (showTutorial) {
+                System.out.println("Please enter a direcion : U D R L");
+                System.out.println("Directions can be chained (Eg : 'uuurdl')");
+            }
+            if (errorDialog != null) {
+                System.out.println("[ Hey Watchout ! ] " + errorDialog);
+            }
+            System.out.print("Dir > ");
 
             Scanner scanner = new Scanner(System.in);
             String inputString = scanner.nextLine().trim().toUpperCase();
-            if(inputString.length() == 0)
+            if (inputString.length() == 0)
                 continue;
-            char input = inputString.charAt(0);
-            
-            if (!Vector2.CHAR_DIRECTION.containsKey(input)) {
-                System.out.println("Invalid input");
-                continue;
-            }
 
-            Vector2 direction = Vector2.CHAR_DIRECTION.get(input);
-            try {
-                player.moov(direction, map);
-            } catch (InvalidMoovException e) {
-                System.out.println(e.getMessage());
-                continue;
+            for (char input : inputString.toCharArray()) {
+                Player player = map.getMapPlayer();
+
+                if (player == null)
+                    throw new NoPlayerException("Error : no player found on map");
+
+                if (!Vector2.CHAR_DIRECTION.containsKey(input)) {
+                    errorDialog = input + " is not a valid direction...";
+                    break;
+                }
+
+                Vector2 direction = Vector2.CHAR_DIRECTION.get(input);
+                try {
+                    player.moov(direction, map);
+                    showTutorial = false;
+                    errorDialog = null;
+                } catch (InvalidMoovException e) {
+                    errorDialog = e.getMessage();
+                    break;
+                }
+
+                if(inputString.length() > 1)
+                    TimeUnit.MILLISECONDS.sleep(300);
+
+                map.draw();
             }
         }
-
-        map.draw();
     }
 }

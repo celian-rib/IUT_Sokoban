@@ -1,11 +1,11 @@
 package sokoban.map;
 
-import java.lang.ProcessBuilder.Redirect.Type;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import sokoban.Vector2;
 import sokoban.exceptions.BuilderException;
+import sokoban.exceptions.InvalidMoovException;
 import sokoban.exceptions.InvalidPositionException;
 import sokoban.map.mapObject.MapObject;
 import sokoban.map.mapObject.MoovableObject;
@@ -37,7 +37,7 @@ public class Map {
         map[object.getPosition().y][object.getPosition().x] = object;
     }
 
-    public boolean handleMoovPosibility(MoovableObject object, Vector2 direction) throws Exception {
+    public boolean handleMoovPosibility(MoovableObject object, Vector2 direction) throws InvalidMoovException, InvalidPositionException, UnsupportedOperationException {
         Vector2 predictedPosition = object.getPosition().add(direction); // Position where we want to moov
         MapObject objectAtPredictedPosition = getObjectAtPosition(predictedPosition);
 
@@ -63,7 +63,7 @@ public class Map {
         return false;
     }
 
-    public void hardSwapObjects(Vector2 origin, Vector2 direction) throws Exception {
+    public void hardSwapObjects(Vector2 origin, Vector2 direction) throws InvalidPositionException {
         Vector2 predictedPosition = origin.add(direction);
 
         if (!positionIsInBoard(origin) || !positionIsInBoard(predictedPosition))

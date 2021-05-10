@@ -20,13 +20,6 @@ public abstract class MapObject {
         put(ObjectType.DESTINATION, 'x');
         put(ObjectType.PLAYER, 'P');
     }};
-    // public static HashMap<ObjectType, Character> typeCharacters = new HashMap<ObjectType, Character>(){{
-    //     put(ObjectType.EMPTY, ' ');
-    //     put(ObjectType.WALL, '▓');
-    //     put(ObjectType.BOX, 'C');
-    //     put(ObjectType.DESTINATION, 'x');
-    //     put(ObjectType.PLAYER, '웃');
-    // }};
 
     public final ObjectType TYPE;
     protected final Vector2 position;
@@ -54,7 +47,7 @@ public abstract class MapObject {
         return position.toString() + "  [" + typeCharacters.get(TYPE) + "]";
     }
 
-    public MapObject createPositionedCopy(Vector2 position) throws Exception {
-        throw new UnsupportedOperationException("Impossible copy on object of type " + TYPE);
+    public MapObject createPositionedCopy(Vector2 position) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Error : Impossible copy on object of type " + TYPE);
     }
 }
