@@ -39,8 +39,7 @@ public class Map {
     }
 
     public boolean handleMoovPosibility(MoovableObject object, Vector2 direction) throws Exception {
-        MapObject origin = object.getMapObject(); // Transform MoovableObject in its MapObject instance
-        Vector2 predictedPosition = origin.getPosition().add(direction); // Position where we want to moov
+        Vector2 predictedPosition = object.getPosition().add(direction); // Position where we want to moov
         MapObject objectAtPredictedPosition = getObjectAtPosition(predictedPosition);
 
         if (objectAtPredictedPosition == null) // Not on map
