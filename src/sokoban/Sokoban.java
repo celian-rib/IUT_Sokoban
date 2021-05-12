@@ -5,6 +5,7 @@ import java.util.concurrent.*;
 
 import sokoban.exceptions.*;
 import sokoban.map.*;
+import sokoban.map.mapDatabase.MapDatabase;
 import sokoban.map.mapObject.*;
 
 /**
@@ -17,12 +18,13 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
-
-        // MapDrawer drawer = new LowDetailsMapDrawer();
-        MapDrawer drawer = new HighDetailsMapDrawer();
-
         try {
+            MapFromDatabaseBuilder builder = new MapFromDatabaseBuilder(0, new MapDatabase());
+            // MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
+
+            // MapDrawer drawer = new LowDetailsMapDrawer();
+            MapDrawer drawer = new HighDetailsMapDrawer();
+
             Map map = new Map(drawer, builder);
             gameLoop(map);
         } catch (Exception e) {
@@ -38,9 +40,9 @@ public class Sokoban {
         String errorDialog = null;
 
         map.draw();
-    
+
         while (map.hasEmptyDestination()) {
-           
+
             if (showTutorial) {
                 System.out.println("Please enter a direcion : U D R L");
                 System.out.println("Directions can be chained (Eg : 'uuurdl')");
@@ -76,7 +78,7 @@ public class Sokoban {
                     break;
                 }
 
-                if(inputString.length() > 1)
+                if (inputString.length() > 1)
                     TimeUnit.MILLISECONDS.sleep(300);
 
                 map.draw();
