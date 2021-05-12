@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.concurrent.*;
 
 import sokoban.exceptions.*;
-import sokoban.map.mapDatabase.*;
 import sokoban.map.*;
 import sokoban.map.mapObject.*;
 
@@ -18,28 +17,19 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
 
-        try (MapDatabase database = new MapDatabase()) {
-            MapDatabaseAdministration adminPanel = new MapDatabaseAdministration(database);
-            adminPanel.drawAdministrationMenu();
+        // MapDrawer drawer = new LowDetailsMapDrawer();
+        MapDrawer drawer = new HighDetailsMapDrawer();
+
+        try {
+            Map map = new Map(drawer, builder);
+            gameLoop(map);
         } catch (Exception e) {
-            System.err.println(e);
-            System.exit(1);
+            System.err.println(e.getMessage());
+            for (StackTraceElement s : e.getStackTrace())
+                System.err.println(s.toString());
         }
-
-        // MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
-
-        // // MapDrawer drawer = new LowDetailsMapDrawer();
-        // MapDrawer drawer = new HighDetailsMapDrawer();
-
-        // try {
-        //     Map map = new Map(drawer, builder);
-        //     gameLoop(map);
-        // } catch (Exception e) {
-        //     System.err.println(e.getMessage());
-        //     for (StackTraceElement s : e.getStackTrace())
-        //         System.err.println(s.toString());
-        // }
     }
 
     public static void gameLoop(Map map) throws NoPlayerException, InvalidPositionException, InterruptedException {

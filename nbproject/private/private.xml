@@ -8,6 +8,7 @@
             <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/MapObject.java</file>
             <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/MoovableObject.java</file>
             <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapObject/Box.java</file>
+            <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/mapDatabase/MapDatabaseAdministration.java</file>
             <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/map/Map.java</file>
             <file>file://iut.bx1/Etudiants/Home/criboulet/Desktop/sokoban/src/sokoban/Sokoban.java</file>
         </group>
