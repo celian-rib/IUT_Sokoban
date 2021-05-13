@@ -94,8 +94,8 @@ public class MapDatabase implements AutoCloseable {
         statement.setString(2, map.name);
         statement.setString(3, map.difficulty);
         statement.executeUpdate();
-        
-        for(Row r : rows) {
+
+        for (Row r : rows) {
             sql = "insert into ROWS (mapId, rowId, content) values (?,?,?)";
             statement = conn.prepareStatement(sql);
             statement.setInt(1, r.mapId);
@@ -122,7 +122,7 @@ public class MapDatabase implements AutoCloseable {
 
         return maps;
     }
-    
+
     public ArrayList<Row> getRows() throws SQLException {
         ArrayList<Row> rows = new ArrayList<Row>();
         String sql = "select * from ROWS";
