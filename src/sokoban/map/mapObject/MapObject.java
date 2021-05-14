@@ -30,6 +30,26 @@ public abstract class MapObject {
         }
     };
 
+    public boolean isEmpty() {
+        return this.TYPE == ObjectType.EMPTY;
+    };
+
+    public boolean isWall() {
+        return this.TYPE == ObjectType.WALL;
+    };
+
+    public boolean isBox() {
+        return this.TYPE == ObjectType.BOX;
+    };
+
+    public boolean isDestination() {
+        return this.TYPE == ObjectType.DESTINATION;
+    };
+
+    public boolean isPlayer() {
+        return this.TYPE == ObjectType.PLAYER;
+    };
+
     /**
      * The type of this object
      */

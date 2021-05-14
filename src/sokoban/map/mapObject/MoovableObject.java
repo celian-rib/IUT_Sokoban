@@ -48,6 +48,10 @@ public abstract class MoovableObject extends MapObject {
     public boolean isOnDestination() {
         return isOnDestination;
     }
+    
+    public void setIsOnDestination(boolean isOn) {
+        isOnDestination = isOn;
+    }
 
     /**
      * Moov this object in a specific direction
@@ -72,13 +76,15 @@ public abstract class MoovableObject extends MapObject {
             isOnDestination = false;
         }
 
-        if (map.getObjectAtPosition(position.add(direction)).TYPE == MapObject.ObjectType.DESTINATION) {
-            isOnDestination = true;
-            map.setObjectOnMap(createPositionedCopy(position.add(direction)));
-            map.setObjectOnMap(new Empty(position));
-        } else {
-            map.hardSwapObjects(position, direction);
-        }
+
+        map.moveObject(this, direction);
+        // if (map.getObjectAtPosition(position.add(direction)).isDESTINATION) {
+        //     isOnDestination = true;
+        //     map.setObjectOnMap(createPositionedCopy(position.add(direction)));
+        //     map.setObjectOnMap(new Empty(position));
+        // } else {
+            
+        // }
 
         if (oldDestinationPosition != null)
             map.setObjectOnMap(new Destination(oldDestinationPosition));
