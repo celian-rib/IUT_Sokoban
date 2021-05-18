@@ -52,9 +52,9 @@ public class Sokoban {
 
             MapDatabase db = new MapDatabase();
             
-            
             drawLine(60);
             MapDatabase.Map map = mapSelection(db);
+
             drawLine(60);
             MapDrawer drawer = drawerSelection();
             
