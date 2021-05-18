@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sokoban.map;
+package sokoban.map.drawer;
 
 import java.util.HashMap;
 import sokoban.map.mapObject.MoovableObject;
-
 import sokoban.map.mapObject.MapObject;
 
 /**
@@ -34,9 +33,8 @@ public class HighDetailsMapDrawer implements MapDrawer {
     @Override
     public void draw(MapObject[][] map) {
         mapString = "";
-        for (int i = 0; i < map.length; i++) {
+        for (int i = 0; i < map.length; i++)
             drawLine(map[i]);
-        }
         System.out.println(mapString);
     }
 

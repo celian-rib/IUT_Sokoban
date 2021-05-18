@@ -7,6 +7,8 @@ import sokoban.Vector2;
 import sokoban.exceptions.BuilderException;
 import sokoban.exceptions.InvalidMoovException;
 import sokoban.exceptions.InvalidPositionException;
+import sokoban.map.builder.MapBuilder;
+import sokoban.map.drawer.MapDrawer;
 import sokoban.map.mapObject.MapObject;
 import sokoban.map.mapObject.MoovableObject;
 import sokoban.map.mapObject.Player;

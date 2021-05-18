@@ -1,4 +1,4 @@
-package sokoban.map;
+package sokoban.map.builder;
 
 import sokoban.exceptions.BuilderException;
 import sokoban.map.mapObject.MapObject;

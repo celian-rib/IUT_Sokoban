@@ -1,4 +1,4 @@
-package sokoban.map;
+package sokoban.map.builder;
 
 import java.sql.Connection;
 import java.sql.SQLException;

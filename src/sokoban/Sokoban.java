@@ -5,6 +5,9 @@ import java.util.concurrent.*;
 
 import sokoban.exceptions.*;
 import sokoban.map.*;
+import sokoban.map.builder.MapFromFileBuilder;
+import sokoban.map.drawer.HighDetailsMapDrawer;
+import sokoban.map.drawer.MapDrawer;
 import sokoban.map.mapDatabase.MapDatabase;
 import sokoban.map.mapObject.*;
 
