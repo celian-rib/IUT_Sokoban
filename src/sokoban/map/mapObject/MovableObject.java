@@ -1,9 +1,9 @@
 package sokoban.map.mapObject;
 
-import sokoban.Vector2;
 import sokoban.exceptions.InvalidMoveException;
 import sokoban.exceptions.InvalidPositionException;
 import sokoban.map.Map;
+import sokoban.utils.Vector2;
 
 /**
  * MapObject that can be moovables Eg : a player or a box

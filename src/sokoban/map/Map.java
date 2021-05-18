@@ -2,12 +2,11 @@ package sokoban.map;
 
 import java.util.Arrays;
 import java.util.HashSet;
-
-import sokoban.Vector2;
 import sokoban.map.builder.MapBuilder;
 import sokoban.map.drawer.MapDrawer;
 import sokoban.exceptions.*;
 import sokoban.map.mapObject.*;
+import sokoban.utils.Vector2;
 
 public class Map {
 

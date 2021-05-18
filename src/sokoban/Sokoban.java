@@ -2,7 +2,6 @@ package sokoban;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.*;
 
 import sokoban.exceptions.*;
@@ -10,6 +9,7 @@ import sokoban.map.*;
 import sokoban.map.builder.*;
 import sokoban.map.drawer.*;
 import sokoban.map.mapObject.*;
+import sokoban.utils.*;
 import sokoban.map.mapDatabase.*;
 
 /**
@@ -22,23 +22,7 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
         gameMenu();
-
-        // try {
-        // // MapFromDatabaseBuilder builder = new MapFromDatabaseBuilder(0, new MapDatabase());
-        // MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
-
-        // // MapDrawer drawer = new LowDetailsMapDrawer();
-        // MapDrawer drawer = new HighDetailsMapDrawer();
-
-        // Map map = new Map(drawer, builder);
-        // gameLoop(map);
-        // } catch (Exception e) {
-        // System.err.println(e.getMessage());
-        // for (StackTraceElement s : e.getStackTrace())
-        // System.err.println(s.toString());
-        // }
     }
 
     private static void drawLine(int length) {

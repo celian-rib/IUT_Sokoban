@@ -1,7 +1,7 @@
 package sokoban.map.mapObject;
 
 import java.util.HashMap;
-import sokoban.Vector2;
+import sokoban.utils.Vector2;
 
 /**
  * Object that can be placed on a map Each object has basically a type and a

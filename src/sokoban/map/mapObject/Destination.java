@@ -1,6 +1,6 @@
 package sokoban.map.mapObject;
 
-import sokoban.Vector2;
+import sokoban.utils.Vector2;
 
 public class Destination extends MapObject {
 
