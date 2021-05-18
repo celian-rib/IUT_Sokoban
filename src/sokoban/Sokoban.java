@@ -5,10 +5,8 @@ import java.util.concurrent.*;
 
 import sokoban.exceptions.*;
 import sokoban.map.*;
-import sokoban.map.builder.MapFromFileBuilder;
-import sokoban.map.drawer.HighDetailsMapDrawer;
-import sokoban.map.drawer.MapDrawer;
-import sokoban.map.mapDatabase.MapDatabase;
+import sokoban.map.builder.*;
+import sokoban.map.drawer.*;
 import sokoban.map.mapObject.*;
 
 /**
@@ -23,10 +21,10 @@ public class Sokoban {
     public static void main(String[] args) {
         try {
             // MapFromDatabaseBuilder builder = new MapFromDatabaseBuilder(0, new MapDatabase());
-            MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
+            MapFromFileBuilder builder = new MapFromFileBuilder("MapFile3.txt");
 
-            // MapDrawer drawer = new LowDetailsMapDrawer();
-            MapDrawer drawer = new HighDetailsMapDrawer();
+            MapDrawer drawer = new LowDetailsMapDrawer();
+            // MapDrawer drawer = new HighDetailsMapDrawer();
 
             Map map = new Map(drawer, builder);
             gameLoop(map);

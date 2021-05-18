@@ -1,10 +1,7 @@
 package sokoban.map.mapDatabase;
 
-import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.File;
 
 public class MapDatabase implements AutoCloseable {
 
