@@ -8,8 +8,7 @@ package sokoban.map.drawer;
 import sokoban.map.mapObject.MapObject;
 
 /**
- *
- * @author criboulet
+ * Draw the map simply (One char = one object)
  */
 public class LowDetailsMapDrawer implements MapDrawer {
 

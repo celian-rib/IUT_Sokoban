@@ -38,7 +38,7 @@ public class MapDatabaseAdministration {
             case "3":
                 try {
                     var map = db.new Map("Map de test", "facile");
-                    var rows = getRowsFromFile(map.id ,"MapFile2.txt");
+                    var rows = getRowsFromFile(map.id, "MapFile2.txt");
                     db.addMap(map, rows);
                 } catch (Exception e) {
                     System.err.println(e);
@@ -67,7 +67,9 @@ public class MapDatabaseAdministration {
     }
 
     public static String mapTableString(MapDatabase db) {
-        String result = String.format("| %3s | %20s | %15s |", "id", "name", "difficulty").replace(' ', '-') + "\n";
+        String result =
+                String.format("| %3s | %20s | %15s |", "id", "name", "difficulty").replace(' ', '-')
+                        + "\n";
         try {
             for (MapDatabase.Map m : db.getMaps())
                 result += m.toString() + "\n";
@@ -79,7 +81,9 @@ public class MapDatabaseAdministration {
     }
 
     public static String rowsTableString(MapDatabase db) {
-        String result = String.format("| %6s | %6s | %30s |", "mapId", "rowId", "content").replace(' ', '-') + "\n";
+        String result =
+                String.format("| %6s | %6s | %30s |", "mapId", "rowId", "content").replace(' ', '-')
+                        + "\n";
         try {
             for (MapDatabase.Row r : db.getRows())
                 result += r.toString() + "\n";
@@ -91,7 +95,8 @@ public class MapDatabaseAdministration {
         }
     }
 
-    public static ArrayList<MapDatabase.Row> getRowsFromFile(int mapId, String filePath) throws FileNotFoundException {
+    public static ArrayList<MapDatabase.Row> getRowsFromFile(int mapId, String filePath)
+            throws FileNotFoundException {
         ArrayList<MapDatabase.Row> rows = new ArrayList<MapDatabase.Row>();
         Scanner scanner = new Scanner(new File(filePath));
         int i = 0;

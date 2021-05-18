@@ -5,12 +5,19 @@ import java.util.ArrayList;
 
 public class MapDatabase implements AutoCloseable {
 
+    /**
+     * Class representing one map objct in the databse's MPAS table
+     */
     public class Map {
         public final int id;
         public final String name;
         public final String difficulty;
 
-        public static final String createSql = "create table MAPS (id int not null, name string not null, difficulty string not null);";
+        /**
+         * Sql query to create the maps table
+         */
+        public static final String createSql =
+                "create table MAPS (id int not null, name string not null, difficulty string not null);";
 
         public Map(String name, String difficulty) throws SQLException {
             this.id = getAvailableMapId();
@@ -30,12 +37,19 @@ public class MapDatabase implements AutoCloseable {
         }
     }
 
+    /**
+     * Class representing on row in the database's ROWS table
+     */
     public static class Row {
         public final int mapId;
         public final int rowId;
         public final String content;
 
-        public static final String createSql = "create table ROWS (mapId int not null, rowId int not null, content string not null);";
+        /**
+         * Sql query to create the rows table
+         */
+        public static final String createSql =
+                "create table ROWS (mapId int not null, rowId int not null, content string not null);";
 
         public Row(int mapId, int rowId, String content) {
             this.mapId = mapId;
@@ -61,6 +75,9 @@ public class MapDatabase implements AutoCloseable {
         this.conn = conn;
     }
 
+    /**
+     * Load pilot to establisg connection with the database
+     */
     private static void loadSQLitePilots() {
         String sqlite_driver = "org.sqlite.JDBC";
         try {
@@ -71,10 +88,19 @@ public class MapDatabase implements AutoCloseable {
         }
     }
 
+    /**
+     * @return the actual connection with the database
+     */
     public Connection getDbConnection() {
         return conn;
     }
 
+    /**
+     * Calculate the smallest map id that is available in the database
+     * 
+     * @return map id available
+     * @throws SQLException
+     */
     public int getAvailableMapId() throws SQLException {
         int max = 0;
         for (Map m : getMaps()) {
@@ -84,6 +110,13 @@ public class MapDatabase implements AutoCloseable {
         return max;
     }
 
+    /**
+     * Add a map to the database
+     * 
+     * @param map map to add
+     * @param rows list of rows attached to this map
+     * @throws SQLException
+     */
     public void addMap(Map map, ArrayList<Row> rows) throws SQLException {
         String sql = "insert into MAPS (id, name, difficulty) values (?,?,?)";
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -104,6 +137,10 @@ public class MapDatabase implements AutoCloseable {
         System.out.println("Added to the database");
     }
 
+    /**
+     * @return all the maps in the database
+     * @throws SQLException
+     */
     public ArrayList<Map> getMaps() throws SQLException {
         ArrayList<Map> maps = new ArrayList<Map>();
         String sql = "select * from MAPS";
@@ -120,6 +157,10 @@ public class MapDatabase implements AutoCloseable {
         return maps;
     }
 
+    /**
+     * @return all the rows in the database
+     * @throws SQLException
+     */
     public ArrayList<Row> getRows() throws SQLException {
         ArrayList<Row> rows = new ArrayList<Row>();
         String sql = "select * from ROWS";
@@ -136,16 +177,27 @@ public class MapDatabase implements AutoCloseable {
         return rows;
     }
 
+    /**
+     * Drop the Map and Row tables
+     */
     public void dropTables() {
         updateQuery("drop table if exists MAPS");
         updateQuery("drop table if exists ROWS");
     }
 
+    /**
+     * Initalize the database with the Map and Row tables
+     */
     public void initDb() {
         updateQuery(Map.createSql);
         updateQuery(Row.createSql);
     }
 
+    /**
+     * Execute an update query
+     * 
+     * @param sql sql query string
+     */
     private void updateQuery(String sql) {
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -155,6 +207,9 @@ public class MapDatabase implements AutoCloseable {
         }
     }
 
+    /**
+     * Close the connection
+     */
     @Override
     public void close() throws Exception {
         conn.close();

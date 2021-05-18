@@ -35,7 +35,16 @@ public class Sokoban {
         }
     }
 
-    public static void gameLoop(Map map) throws NoPlayerException, InvalidPositionException, InterruptedException {
+    /**
+     * Run a sokoban game
+     * 
+     * @param map map to play on
+     * @throws NoPlayerException The loaded map does not contains any player
+     * @throws InvalidPositionException An internal game method is miscalculating position ranges
+     * @throws InterruptedException Timer error
+     */
+    public static void gameLoop(Map map)
+            throws NoPlayerException, InvalidPositionException, InterruptedException {
 
         boolean showTutorial = true;
         String errorDialog = null;

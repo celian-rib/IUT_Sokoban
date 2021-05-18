@@ -3,18 +3,22 @@ package sokoban;
 import java.util.HashMap;
 
 public class Vector2 {
+
     /**
      * Up directional vector
      */
     public final static Vector2 UP = new Vector2(0, -1);
+
     /**
      * Down directional vector
      */
     public final static Vector2 DOWN = new Vector2(0, 1);
+
     /**
      * Left directional vector
      */
     public final static Vector2 LEFT = new Vector2(-1, 0);
+
     /**
      * Right directional vector
      */
