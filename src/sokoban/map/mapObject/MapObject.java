@@ -37,7 +37,7 @@ public abstract class MapObject {
 
     /**
      * The position of this onbject on the map This position is freezed and so an
-     * object is not able to be mooved directly on the map
+     * object is not able to be moved directly on the map
      * 
      * @see createPositionedCopy() To change the position of an object
      */

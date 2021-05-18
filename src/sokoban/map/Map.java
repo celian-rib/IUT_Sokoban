@@ -4,91 +4,130 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import sokoban.Vector2;
-import sokoban.exceptions.BuilderException;
-import sokoban.exceptions.InvalidMoovException;
-import sokoban.exceptions.InvalidPositionException;
 import sokoban.map.builder.MapBuilder;
 import sokoban.map.drawer.MapDrawer;
-import sokoban.map.mapObject.Destination;
-import sokoban.map.mapObject.Empty;
-import sokoban.map.mapObject.MapObject;
-import sokoban.map.mapObject.MoovableObject;
-import sokoban.map.mapObject.Player;
-import sokoban.map.mapObject.MapObject.ObjectType;
+import sokoban.exceptions.*;
+import sokoban.map.mapObject.*;
 
 public class Map {
 
+    /**
+     * Map drawer used to draw this map
+     */
     private final MapDrawer drawer;
+
+    /**
+     * Actual map data
+     */
     private MapObject[][] map;
 
+    /**
+     * Create a new map
+     * 
+     * @param drawer drawer to use for drawing the map
+     * @param builder builder to use for the creation
+     * @throws BuilderException
+     */
     public Map(MapDrawer drawer, MapBuilder builder) throws BuilderException {
         this.map = builder.build();
         this.drawer = drawer;
     }
 
+    /**
+     * Draw this map using its drawer
+     */
     public void draw() {
         drawer.draw(map);
     }
 
+    /**
+     * @param position position to look for
+     * @return the object at the given position
+     */
     public MapObject getObjectAtPosition(Vector2 position) {
-        if (!positionIsInBoard(position))
+        if (!containsPosition(position))
             return null;
         return map[position.y][position.x];
     }
 
+    /**
+     * Set on the map an object (The position used is the attribute position of the object)
+     * 
+     * @param object object to set on map
+     * @throws InvalidPositionException
+     */
     public void setObjectOnMap(MapObject object) throws InvalidPositionException {
-        if (!positionIsInBoard(object.getPosition()))
+        if (!containsPosition(object.getPosition()))
             throw new InvalidPositionException(
                     "Cannot set object at a position that is not contained in the board");
         map[object.getPosition().y][object.getPosition().x] = object;
     }
 
-    public boolean handleMoovPosibility(MoovableObject object, Vector2 direction)
-            throws InvalidMoovException, InvalidPositionException, UnsupportedOperationException {
-        Vector2 predictedPosition = object.getPosition().add(direction); // Position where we want
-                                                                         // to moov
+    /**
+     * Check if a move is possible
+     * 
+     * @param object object that will move
+     * @param direction directin in which the object will move (Normalized)
+     * @return true if the object is able to move
+     * @throws InvalidMoveException
+     * @throws InvalidPositionException
+     * @throws UnsupportedOperationException
+     */
+    public boolean handleMovePosibility(MovableObject object, Vector2 direction)
+            throws InvalidMoveException, InvalidPositionException, UnsupportedOperationException {
+        Vector2 predictedPosition = object.getPosition().add(direction);
         MapObject objectAtPredictedPosition = getObjectAtPosition(predictedPosition);
 
         if (objectAtPredictedPosition == null) // Not on map
             return false;
 
-        // Moov is going on an empty space (This is correct)
+        // Move is going on an empty space (This is correct)
         if (objectAtPredictedPosition.TYPE == MapObject.ObjectType.EMPTY
                 || objectAtPredictedPosition.TYPE == MapObject.ObjectType.DESTINATION)
             return true;
 
-        // If the wanted position is moovable -> the moov if still posssible as long as
-        // we can push this moovable object
-        if (objectAtPredictedPosition instanceof MoovableObject)
-            return handleMoovPosibility((MoovableObject) objectAtPredictedPosition, direction);
+        // If the wanted position is movable -> the move if still posssible as long as
+        // we can push this movable object
+        if (objectAtPredictedPosition instanceof MovableObject)
+            return handleMovePosibility((MovableObject) objectAtPredictedPosition, direction);
 
         return false;
     }
 
-    public void moovObject(MoovableObject object, Vector2 direction) throws UnsupportedOperationException, InvalidMoovException, InvalidPositionException {
-        if (!handleMoovPosibility(object, direction))
-            throw new InvalidMoovException("You can't go in this direction...");
-        
+    /**
+     * Moov an object on the map
+     * 
+     * @param object object to moov
+     * @param direction direction in which the object is mooved (Normalized)
+     * @throws UnsupportedOperationException
+     * @throws InvalidMoveException
+     * @throws InvalidPositionException
+     */
+    public void moveObject(MovableObject object, Vector2 direction)
+            throws UnsupportedOperationException, InvalidMoveException, InvalidPositionException {
+        if (!handleMovePosibility(object, direction))
+            throw new InvalidMoveException("You can't go in this direction...");
+
         Vector2 currentPosition = object.getPosition();
         Vector2 nextPosition = currentPosition.add(direction);
         MapObject nextPositionObject = getObjectAtPosition(nextPosition);
-    
-        if(nextPositionObject instanceof MoovableObject){
-            moovObject((MoovableObject) nextPositionObject, direction);
+
+        if (nextPositionObject instanceof MovableObject) {
+            moveObject((MovableObject) nextPositionObject, direction);
         }
 
         nextPositionObject = getObjectAtPosition(nextPosition);
 
 
-        if(object.isOnDestination()){
+        if (object.isOnDestination()) {
             System.out.println("revert");
             setObjectOnMap(new Destination(nextPosition));
-            object.setIsOnDestination(nextPositionObject.TYPE == ObjectType.DESTINATION);
+            object.setIsOnDestination(nextPositionObject.TYPE == MapObject.ObjectType.DESTINATION);
         }
-        
-        if(nextPositionObject.TYPE == ObjectType.DESTINATION){
+
+        if (nextPositionObject.TYPE == MapObject.ObjectType.DESTINATION) {
             System.out.println("on dest");
-            if(!object.isOnDestination())
+            if (!object.isOnDestination())
                 setObjectOnMap(new Empty(nextPosition));
             object.setIsOnDestination(true);
         }
@@ -96,6 +135,13 @@ public class Map {
         hardSwapPositions(currentPosition, nextPosition);
     }
 
+    /**
+     * Swap two object on the map with two given positions
+     * 
+     * @param first first pos
+     * @param second second pos
+     * @throws InvalidPositionException
+     */
     private void hardSwapPositions(Vector2 first, Vector2 second) throws InvalidPositionException {
         MapObject newSecond = getObjectAtPosition(first).createPositionedCopy(second);
         MapObject newFirst = getObjectAtPosition(second).createPositionedCopy(first);
@@ -104,7 +150,13 @@ public class Map {
         setObjectOnMap(newFirst);
     }
 
-    public boolean positionIsInBoard(Vector2 position) {
+    /**
+     * Check if a position is contained in the map
+     * 
+     * @param position position to check
+     * @return
+     */
+    public boolean containsPosition(Vector2 position) {
         if (position.x < 0 || position.y < 0)
             return false;
         if (position.x >= map[0].length || position.y >= map.length)
@@ -112,10 +164,16 @@ public class Map {
         return true;
     }
 
+    /**
+     * @return true if this map contains any boxes
+     */
     public boolean hasBox() {
         return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.BOX).count() > 0;
     }
 
+    /**
+     * @return true if their is any destination on the map that is empty (No moovable object on it)
+     */
     public boolean hasEmptyDestination() {
         if (getMapPlayer().isOnDestination())
             return true;
@@ -123,11 +181,17 @@ public class Map {
                 .count() > 0;
     }
 
+    /**
+     * @return the actual object that is the player on the map null if not found
+     */
     public Player getMapPlayer() {
         return getMapSet().stream().filter(o -> o != null).filter(o -> o.getClass() == Player.class)
                 .map(Player.class::cast).findFirst().orElse(null);
     }
 
+    /**
+     * @return the map 2d array in a one dimmensional HashSet
+     */
     public HashSet<MapObject> getMapSet() {
         HashSet<MapObject> set = new HashSet<>();
         for (MapObject[] objs : map)

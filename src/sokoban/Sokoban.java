@@ -71,10 +71,10 @@ public class Sokoban {
 
                 Vector2 direction = Vector2.CHAR_DIRECTION.get(input);
                 try {
-                    player.moov(direction, map);
+                    player.move(direction, map);
                     showTutorial = false;
                     errorDialog = null;
-                } catch (InvalidMoovException e) {
+                } catch (InvalidMoveException e) {
                     errorDialog = e.getMessage();
                     break;
                 }

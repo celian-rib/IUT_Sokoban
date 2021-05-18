@@ -2,7 +2,7 @@ package sokoban.map.mapObject;
 
 import sokoban.Vector2;
 
-public class Player extends MoovableObject {
+public class Player extends MovableObject {
 
     public Player(int x, int y) {
         super(x, y, MapObject.ObjectType.PLAYER);

@@ -1,14 +1,14 @@
 package sokoban.map.mapObject;
 
 import sokoban.Vector2;
-import sokoban.exceptions.InvalidMoovException;
+import sokoban.exceptions.InvalidMoveException;
 import sokoban.exceptions.InvalidPositionException;
 import sokoban.map.Map;
 
 /**
  * MapObject that can be moovables Eg : a player or a box
  */
-public abstract class MoovableObject extends MapObject {
+public abstract class MovableObject extends MapObject {
 
     /**
      * Determine if this moovable object is on position that was originaly a MapObject of type
@@ -23,7 +23,7 @@ public abstract class MoovableObject extends MapObject {
      * @param position position of the object
      * @param type type of the object
      */
-    public MoovableObject(Vector2 position, ObjectType type) {
+    public MovableObject(Vector2 position, ObjectType type) {
         super(position, type);
     }
 
@@ -34,7 +34,7 @@ public abstract class MoovableObject extends MapObject {
      * @param y the y position
      * @param type the type of the object
      */
-    public MoovableObject(int x, int y, ObjectType type) {
+    public MovableObject(int x, int y, ObjectType type) {
         super(x, y, type);
     }
 
@@ -57,11 +57,11 @@ public abstract class MoovableObject extends MapObject {
      * @param direction vector that represent the movment of the object (Normalized vectors are used
      *        for directions, but non-normalized are working as well)
      * @param map map on which the object is present
-     * @throws InvalidMoovException
+     * @throws InvalidMoveException
      * @throws InvalidPositionException
      * @throws UnsupportedOperationException
      */
-    public void moov(Vector2 direction, Map map) throws InvalidMoovException, InvalidPositionException, UnsupportedOperationException {
-        map.moovObject(this, direction);
+    public void move(Vector2 direction, Map map) throws InvalidMoveException, InvalidPositionException, UnsupportedOperationException {
+        map.moveObject(this, direction);
     }
 }

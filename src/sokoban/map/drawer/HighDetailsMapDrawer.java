@@ -6,7 +6,7 @@
 package sokoban.map.drawer;
 
 import java.util.HashMap;
-import sokoban.map.mapObject.MoovableObject;
+import sokoban.map.mapObject.MovableObject;
 import sokoban.map.mapObject.MapObject;
 
 /**
@@ -25,7 +25,7 @@ public class HighDetailsMapDrawer implements MapDrawer {
         put(MapObject.ObjectType.DESTINATION, "\\   /\n  X  \n/   \\");
     }};
    
-    private HashMap<MapObject.ObjectType, String> hasDestinationMoovablesStrings = new HashMap<MapObject.ObjectType,String>() {{
+    private HashMap<MapObject.ObjectType, String> hasDestinationMovablesStrings = new HashMap<MapObject.ObjectType,String>() {{
         put(MapObject.ObjectType.BOX, "⌜---⌝\n|OXO|\n⌞---⌟");
         put(MapObject.ObjectType.PLAYER, "\\ O /\n /|\\ \n// \\\\");
     }};
@@ -41,10 +41,10 @@ public class HighDetailsMapDrawer implements MapDrawer {
     private void drawLine(MapObject[] line) {
         for (int i = 0; i < 3; i++) {
             for (MapObject obj : line) {
-                if(obj instanceof MoovableObject) {
-                    MoovableObject moovable = (MoovableObject) obj;
-                    if(moovable.isOnDestination()) {
-                        mapString += hasDestinationMoovablesStrings.get(obj.TYPE).split("\n")[i];
+                if(obj instanceof MovableObject) {
+                    MovableObject movable = (MovableObject) obj;
+                    if(movable.isOnDestination()) {
+                        mapString += hasDestinationMovablesStrings.get(obj.TYPE).split("\n")[i];
                         continue;
                     }
                 }
