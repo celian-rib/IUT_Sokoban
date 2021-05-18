@@ -9,9 +9,12 @@ import sokoban.exceptions.InvalidMoovException;
 import sokoban.exceptions.InvalidPositionException;
 import sokoban.map.builder.MapBuilder;
 import sokoban.map.drawer.MapDrawer;
+import sokoban.map.mapObject.Destination;
+import sokoban.map.mapObject.Empty;
 import sokoban.map.mapObject.MapObject;
 import sokoban.map.mapObject.MoovableObject;
 import sokoban.map.mapObject.Player;
+import sokoban.map.mapObject.MapObject.ObjectType;
 
 public class Map {
 
@@ -35,47 +38,70 @@ public class Map {
 
     public void setObjectOnMap(MapObject object) throws InvalidPositionException {
         if (!positionIsInBoard(object.getPosition()))
-            throw new InvalidPositionException("Cannot set object at a position that is not contained in the board");
+            throw new InvalidPositionException(
+                    "Cannot set object at a position that is not contained in the board");
         map[object.getPosition().y][object.getPosition().x] = object;
     }
 
-    public boolean handleMoovPosibility(MoovableObject object, Vector2 direction) throws InvalidMoovException, InvalidPositionException, UnsupportedOperationException {
-        Vector2 predictedPosition = object.getPosition().add(direction); // Position where we want to moov
+    public boolean handleMoovPosibility(MoovableObject object, Vector2 direction)
+            throws InvalidMoovException, InvalidPositionException, UnsupportedOperationException {
+        Vector2 predictedPosition = object.getPosition().add(direction); // Position where we want
+                                                                         // to moov
         MapObject objectAtPredictedPosition = getObjectAtPosition(predictedPosition);
 
         if (objectAtPredictedPosition == null) // Not on map
             return false;
 
         // Moov is going on an empty space (This is correct)
-        if (objectAtPredictedPosition.TYPE == MapObject.ObjectType.EMPTY || objectAtPredictedPosition.TYPE == MapObject.ObjectType.DESTINATION)
+        if (objectAtPredictedPosition.TYPE == MapObject.ObjectType.EMPTY
+                || objectAtPredictedPosition.TYPE == MapObject.ObjectType.DESTINATION)
             return true;
 
         // If the wanted position is moovable -> the moov if still posssible as long as
         // we can push this moovable object
-        if (objectAtPredictedPosition instanceof MoovableObject) {
-            MoovableObject pushable = (MoovableObject) objectAtPredictedPosition;
-            // We check if the moov is allowed for the box, the recursion will check if a
-            // box can push a box and more ...
-            boolean boxMoovAllowed = handleMoovPosibility(pushable, direction);
-            if (boxMoovAllowed)
-                pushable.moov(direction, this); // We push this pushable
-            return boxMoovAllowed;
-        }
+        if (objectAtPredictedPosition instanceof MoovableObject)
+            return handleMoovPosibility((MoovableObject) objectAtPredictedPosition, direction);
 
         return false;
     }
 
-    public void hardSwapObjects(Vector2 origin, Vector2 direction) throws InvalidPositionException {
-        Vector2 predictedPosition = origin.add(direction);
+    public void moovObject(MoovableObject object, Vector2 direction) throws UnsupportedOperationException, InvalidMoovException, InvalidPositionException {
+        if (!handleMoovPosibility(object, direction))
+            throw new InvalidMoovException("You can't go in this direction...");
+        
+        Vector2 currentPosition = object.getPosition();
+        Vector2 nextPosition = currentPosition.add(direction);
+        MapObject nextPositionObject = getObjectAtPosition(nextPosition);
+    
+        if(nextPositionObject instanceof MoovableObject){
+            moovObject((MoovableObject) nextPositionObject, direction);
+        }
 
-        if (!positionIsInBoard(origin) || !positionIsInBoard(predictedPosition))
-            throw new InvalidPositionException("Cannot swap positions that are not both contained in the map");
+        nextPositionObject = getObjectAtPosition(nextPosition);
 
-        MapObject newNext = getObjectAtPosition(origin).createPositionedCopy(predictedPosition);
-        MapObject newOrigin = getObjectAtPosition(predictedPosition).createPositionedCopy(origin);
 
-        setObjectOnMap(newNext);
-        setObjectOnMap(newOrigin);
+        if(object.isOnDestination()){
+            System.out.println("revert");
+            setObjectOnMap(new Destination(nextPosition));
+            object.setIsOnDestination(nextPositionObject.TYPE == ObjectType.DESTINATION);
+        }
+        
+        if(nextPositionObject.TYPE == ObjectType.DESTINATION){
+            System.out.println("on dest");
+            if(!object.isOnDestination())
+                setObjectOnMap(new Empty(nextPosition));
+            object.setIsOnDestination(true);
+        }
+
+        hardSwapPositions(currentPosition, nextPosition);
+    }
+
+    private void hardSwapPositions(Vector2 first, Vector2 second) throws InvalidPositionException {
+        MapObject newSecond = getObjectAtPosition(first).createPositionedCopy(second);
+        MapObject newFirst = getObjectAtPosition(second).createPositionedCopy(first);
+
+        setObjectOnMap(newSecond);
+        setObjectOnMap(newFirst);
     }
 
     public boolean positionIsInBoard(Vector2 position) {
@@ -85,15 +111,16 @@ public class Map {
             return false;
         return true;
     }
-    
+
     public boolean hasBox() {
         return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.BOX).count() > 0;
     }
-    
+
     public boolean hasEmptyDestination() {
-        if(getMapPlayer().isOnDestination())
+        if (getMapPlayer().isOnDestination())
             return true;
-        return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.DESTINATION).count() > 0;
+        return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.DESTINATION)
+                .count() > 0;
     }
 
     public Player getMapPlayer() {

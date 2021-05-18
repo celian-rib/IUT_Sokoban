@@ -21,10 +21,10 @@ public class Sokoban {
     public static void main(String[] args) {
         try {
             // MapFromDatabaseBuilder builder = new MapFromDatabaseBuilder(0, new MapDatabase());
-            MapFromFileBuilder builder = new MapFromFileBuilder("MapFile3.txt");
+            MapFromFileBuilder builder = new MapFromFileBuilder("MapFile4.txt");
 
-            MapDrawer drawer = new LowDetailsMapDrawer();
-            // MapDrawer drawer = new HighDetailsMapDrawer();
+            // MapDrawer drawer = new LowDetailsMapDrawer();
+            MapDrawer drawer = new HighDetailsMapDrawer();
 
             Map map = new Map(drawer, builder);
             gameLoop(map);
