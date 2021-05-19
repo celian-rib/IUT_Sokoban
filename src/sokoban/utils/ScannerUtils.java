@@ -4,6 +4,13 @@ import java.util.Scanner;
 
 public class ScannerUtils {
 
+    /**
+     * Wait for the user to enter any string in the terminal
+     * 
+     * @param prefix text prefix to display on the same line as the user input 
+     *              (Eg : "Enter your name : ")
+     * @return the string from the user
+     */
     public static String awaitString(String prefix) {
         System.out.print(prefix);
         Scanner scanner = new Scanner(System.in);
@@ -13,6 +20,13 @@ public class ScannerUtils {
         return input;
     }
 
+    /**
+     * Wait for the user to enter any integer in the terminal
+     * 
+     * @param prefix text prefix to display on the same line as the user input 
+     *              (Eg : "Enter your age : ")
+     * @return the int from the user
+     */
     public static int awaitInt(String prefix) {
         System.out.print(prefix);
         Scanner scanner = new Scanner(System.in);
@@ -27,6 +41,17 @@ public class ScannerUtils {
         }
     }
 
+    /**
+     * Wait for the user to enter any integer in the terminal
+     * If the int is not contained in a specific range, the user is reasked to
+     * enter an input
+     * 
+     * @param prefix text prefix to display on the same line as the user input 
+     *              (Eg : "Enter your choice (1 to 10) : ")
+     * @param min minimum value accepted (Inclusive)
+     * @param max maximum value accepted (Inclusive)
+     * @return the int from the user
+     */
     public static int awaitIntInRange(String prefix, int min, int max) {
         int inputInt = awaitInt(prefix);
         if (inputInt >= min && inputInt <= max)

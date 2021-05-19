@@ -14,6 +14,10 @@ public class Map {
      * Map drawer used to draw this map
      */
     private final MapDrawer drawer;
+    /**
+     * Map builder used to build this map
+     */
+    private final MapBuilder builder;
 
     /**
      * Actual map data
@@ -30,6 +34,7 @@ public class Map {
     public Map(MapDrawer drawer, MapBuilder builder) throws BuilderException {
         this.map = builder.build();
         this.drawer = drawer;
+        this.builder = builder;
     }
 
     /**
@@ -194,5 +199,17 @@ public class Map {
         for (MapObject[] objs : map)
             set.addAll(Arrays.asList(objs));
         return set;
+    }
+
+    /**
+     * Create a new map with the same drawer and builder
+     * 
+     * This map state are not used to create the copy
+     * 
+     * @return clean copy of the map
+     * @throws BuilderException
+     */
+    public Map createCopyWithBaseComponent() throws BuilderException {
+        return new Map(drawer, builder);
     }
 }

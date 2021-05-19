@@ -98,9 +98,10 @@ public class Sokoban {
      * @throws NoPlayerException The loaded map does not contains any player
      * @throws InvalidPositionException An internal game method is miscalculating position ranges
      * @throws InterruptedException Timer error
+     * @throws BuilderException
      */
     public static void gameLoop(Map map)
-            throws NoPlayerException, InvalidPositionException, InterruptedException {
+            throws NoPlayerException, InvalidPositionException, InterruptedException, BuilderException {
 
         boolean showTutorial = true;
         String errorDialog = null;
@@ -110,14 +111,26 @@ public class Sokoban {
         while (map.hasEmptyDestination()) {
 
             if (showTutorial) {
+                drawLine(60);
                 System.out.println("Please enter a direcion : U D R L");
-                System.out.println("Directions can be chained (Eg : 'uuurdl')");
+                drawLine(60);
+                System.out.println("- Directions can be chained (Eg : 'uuurdl')");
+                System.out.println("- Enter 'restart' to reload the map");
+                System.out.println("- Enter 'quit' to go back to the menu");
+                drawLine(60);
             }
             if (errorDialog != null) {
                 System.out.println("[ Hey Watchout ! ] " + errorDialog);
             }
 
             String inputString = ScannerUtils.awaitString("Dir > ").toUpperCase();
+
+            if(inputString.equals("QUIT"))
+                gameMenu();
+
+            if(inputString.equals("RELOAD"))
+                gameLoop(map.createCopyWithBaseComponent());
+
 
             for (char input : inputString.toCharArray()) {
                 Player player = map.getMapPlayer();
@@ -146,6 +159,8 @@ public class Sokoban {
                 map.draw();
             }
         }
+        drawLine(60);
+        System.out.println("You did it ! Well done.");
+        gameMenu();
     }
-
 }
