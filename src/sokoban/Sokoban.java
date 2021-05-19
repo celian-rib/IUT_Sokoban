@@ -22,6 +22,16 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        // ======== LOAD ONE MAP DIRECTLY ============
+        // try {
+        //     var map = new Map(new HighDetailsMapDrawer(),
+        //             new MapFromFileBuilder("SokobanMaps/stucked__hard.txt"));
+        //     gameLoop(map);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+        // ======== LOAD ONE MAP DIRECTLY ============
+
         gameMenu();
     }
 
@@ -35,13 +45,13 @@ public class Sokoban {
         try {
 
             MapDatabase db = new MapDatabase();
-            
+
             drawLine(60);
             MapDatabase.Map map = mapSelection(db);
 
             drawLine(60);
             MapDrawer drawer = drawerSelection();
-            
+
             MapFromDatabaseBuilder builder = new MapFromDatabaseBuilder(map.id, db);
 
             gameLoop(new Map(drawer, builder));
@@ -76,7 +86,7 @@ public class Sokoban {
                 drawer = new LowDetailsMapDrawer();
                 break;
         }
-        if(drawer == null)
+        if (drawer == null)
             return drawerSelection();
         return drawer;
     }
@@ -106,7 +116,7 @@ public class Sokoban {
             if (errorDialog != null) {
                 System.out.println("[ Hey Watchout ! ] " + errorDialog);
             }
-            
+
             String inputString = ScannerUtils.awaitString("Dir > ").toUpperCase();
 
             for (char input : inputString.toCharArray()) {

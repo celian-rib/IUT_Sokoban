@@ -2,8 +2,10 @@ package sokoban.map.mapDatabase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import sokoban.utils.ScannerUtils;
 
 public class MapDatabaseAdministration {
 
@@ -22,7 +24,8 @@ public class MapDatabaseAdministration {
         System.out.println("1 : Initialize DB");
         System.out.println("2 : See DB");
         System.out.println("3 : Add map from file");
-        System.out.println("4 : drop tables");
+        System.out.println("4 : Delete map");
+        System.out.println("5 : drop tables [DANGEROUS]");
 
         Scanner scanner = new Scanner(System.in);
         switch (scanner.nextLine().trim()) {
@@ -36,19 +39,26 @@ public class MapDatabaseAdministration {
                 drawDb(db);
                 break;
             case "3":
-                try {
-                    var map = db.new Map("Map de test", "facile");
-                    var rows = getRowsFromFile(map.id, "MapFile2.txt");
-                    db.addMap(map, rows);
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
+                askMapFromFile(db);
                 break;
             case "4":
-                db.dropTables();
+                deleteMap(db);
+                break;
+            case "5":
+                if(ScannerUtils.awaitString("type 'yes/delete'").equals("yes/delete"))
+                    db.dropTables();
                 break;
         }
         drawAdministrationMenu(db);
+    }
+
+    private static void deleteMap(MapDatabase db) {
+        try {
+            int id = ScannerUtils.awaitIntInRange("Id map : ", 0, db.getAvailableMapId() -1);
+            db.removeMap(id);
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
     }
 
     private static void drawDb(MapDatabase db) {
@@ -61,6 +71,19 @@ public class MapDatabaseAdministration {
             System.out.println("Rows : ");
             System.out.println(rowsTableString(db));
             System.out.println();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    private static void askMapFromFile(MapDatabase db) {
+        try {
+            String name = ScannerUtils.awaitString("Map name :");
+            String difficulty = ScannerUtils.awaitString("Map difficulty (easy, medium, hard) :");
+            String path = ScannerUtils.awaitString("File name : ./SokobanMaps/");
+            var map = db.new Map(name, difficulty);
+            var rows = getRowsFromFile(map.id, "SokobanMaps/" + path);
+            db.addMap(map, rows);
         } catch (Exception e) {
             System.err.println(e);
         }

@@ -119,13 +119,11 @@ public class Map {
 
 
         if (object.isOnDestination()) {
-            System.out.println("revert");
             setObjectOnMap(new Destination(nextPosition));
             object.setIsOnDestination(nextPositionObject.TYPE == MapObject.ObjectType.DESTINATION);
         }
 
         if (nextPositionObject.TYPE == MapObject.ObjectType.DESTINATION) {
-            System.out.println("on dest");
             if (!object.isOnDestination())
                 setObjectOnMap(new Empty(nextPosition));
             object.setIsOnDestination(true);

@@ -137,6 +137,14 @@ public class MapDatabase implements AutoCloseable {
         System.out.println("Added to the database");
     }
 
+    public void removeMap(int mapId) {
+        String sql = "delete from MAPS where id = " + mapId;
+        updateQuery(sql);
+        sql = "delete from ROWS where mapId = " + mapId;
+        updateQuery(sql);
+        System.out.println("Map deleted");
+    }
+
     /**
      * @return all the maps in the database
      * @throws SQLException
