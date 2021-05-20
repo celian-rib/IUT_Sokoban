@@ -115,7 +115,7 @@ public class Sokoban {
                 System.out.println("Please enter a direcion : U D R L");
                 drawLine(60);
                 System.out.println("- Directions can be chained (Eg : 'uuurdl')");
-                System.out.println("- Enter 'restart' to reload the map");
+                System.out.println("- Enter 'reload' to reload the map");
                 System.out.println("- Enter 'quit' to go back to the menu");
                 drawLine(60);
             }
