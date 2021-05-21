@@ -92,7 +92,5 @@ public abstract class MapObject {
      * @return the new create object (the copy)
      * @throws UnsupportedOperationException
      */
-    public MapObject createPositionedCopy(Vector2 position) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Error : Impossible copy on object of type " + TYPE);
-    }
+    public abstract MapObject createPositionedCopy(Vector2 position);
 }
