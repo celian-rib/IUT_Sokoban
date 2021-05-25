@@ -16,27 +16,27 @@ public class Sokoban {
      */
     public static void main(String[] args) {
         // ======== LOAD ONE MAP DIRECTLY ============
-        try {
-        var map = new Map(new sokoban.map.drawer.HighDetailsMapDrawer(),
-        new sokoban.map.builder.MapFromFileBuilder("SokobanMaps/stucked__hard.txt"));
-        gameLoop(map);
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
+        //try {
+        //var map = new Map(new sokoban.map.drawer.HighDetailsMapDrawer(),
+        //new sokoban.map.builder.MapFromFileBuilder("SokobanMaps/stucked__hard.txt"));
+        //gameLoop(map);
+        //} catch (Exception e) {
+        //e.printStackTrace();
+        //}
         // ======== LOAD ONE MAP DIRECTLY ============
 
-        // try {
+        try {
 
-        //     Map map = SokobanMenu.startSokobanMenu();
-        //     gameLoop(map);
+            Map map = SokobanMenu.startSokobanMenu();
+            gameLoop(map);
 
-        // } catch (Exception e) {
+        } catch (Exception e) {
 
-        //     System.err.println(e.getMessage());
-        //     for (StackTraceElement s : e.getStackTrace())
-        //         System.err.println(s.toString());
+            System.err.println(e.getMessage());
+            for (StackTraceElement s : e.getStackTrace())
+                System.err.println(s.toString());
 
-        // }
+        }
     }
 
 
