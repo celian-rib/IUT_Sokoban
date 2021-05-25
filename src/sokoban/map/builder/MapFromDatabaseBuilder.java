@@ -1,6 +1,5 @@
 package sokoban.map.builder;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -14,6 +13,11 @@ public class MapFromDatabaseBuilder implements MapBuilder {
     private int mapId;
     private MapDatabase db;
 
+    /**
+     * Constructor of the builder
+     * @param mapId id of the map the build
+     * @param db database containing the map
+     */
     public MapFromDatabaseBuilder(int mapId, MapDatabase db) {
         this.mapId = mapId;
         this.db = db;

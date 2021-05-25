@@ -122,7 +122,6 @@ public class Map {
 
         nextPositionObject = getObjectAtPosition(nextPosition);
 
-
         if (object.isOnDestination()) {
             setObjectOnMap(new Destination(nextPosition));
             object.setIsOnDestination(nextPositionObject.TYPE == MapObject.ObjectType.DESTINATION);

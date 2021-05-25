@@ -16,6 +16,10 @@ import sokoban.map.mapObject.Wall;
 public class MapFromFileBuilder implements MapBuilder {
     String filePath;
 
+    /**
+     * Create a map builder
+     * @param filePath path this builder will use to build the map
+     */
     public MapFromFileBuilder(String filePath) {
         this.filePath = filePath;
     }
@@ -27,21 +31,21 @@ public class MapFromFileBuilder implements MapBuilder {
             int rowCount = -1;
             boolean mapHasPlayer = false;
             while (scanner.hasNextLine()) {
-                char[] ligne = scanner.nextLine().toCharArray();
+                char[] line = scanner.nextLine().toCharArray();
 
-                //Check if all rowCount (= ligne length) are the same in the file
+                //Check if all rowCount (= line length) are the same in the file
                 if (rowCount == -1)
-                    rowCount = ligne.length;
-                else if (rowCount != ligne.length)
+                    rowCount = line.length;
+                else if (rowCount != line.length)
                     throw new BuilderException("Unexpected ligne length in the file at " + filePath);
 
                 rawMap.add(new MapObject[rowCount]);
 
-                for (int i = 0; i < ligne.length; i++) {
+                for (int i = 0; i < line.length; i++) {
                     int currentLigneIndex = rawMap.size() - 1;
-                    switch (Character.toLowerCase(ligne[i])) {
+                    switch (Character.toLowerCase(line[i])) {
                         default:
-                            throw new BuilderException("Unexpected char [" + ligne[i] + "] in the file at : " + filePath);
+                            throw new BuilderException("Unexpected char [" + line[i] + "] in the file at : " + filePath);
                         case '.':
                             rawMap.get(currentLigneIndex)[i] = new Empty(i, currentLigneIndex);
                             break;

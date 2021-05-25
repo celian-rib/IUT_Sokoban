@@ -68,11 +68,12 @@ public class MapDatabase implements AutoCloseable {
 
     private final Connection conn;
 
+    /**
+     * Create a new MapDatabase instance that handle its own connection
+     */
     public MapDatabase() throws SQLException {
         loadSQLitePilots();
-
-        Connection conn = DriverManager.getConnection(DB_URL);
-        this.conn = conn;
+        this.conn =  DriverManager.getConnection(DB_URL);
     }
 
     /**
@@ -137,6 +138,11 @@ public class MapDatabase implements AutoCloseable {
         System.out.println("Added to the database");
     }
 
+    /**
+     * Remove a map from the database
+     * This handle removing all the data from all the tables related to this map
+     * @param mapId id of the map to delete
+     */
     public void removeMap(int mapId) {
         String sql = "delete from MAPS where id = " + mapId;
         updateQuery(sql);
