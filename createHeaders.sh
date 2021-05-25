@@ -1,5 +1,6 @@
 headerFile="header.txt"
 headerLineCount=10
+fileExt=".java"
 
 function main () {
     echo "----------------------------------------------------"
@@ -16,17 +17,17 @@ function main () {
     echo "But we never know..."
     echo "----------------------------------------------------"
     echo
-    echo "Generate [g] or clear [c] headers from all java files :"
+    echo "Generate [g] or clear [c] headers from all $fileExt files :"
 
     read input
 
     if test "$input" = "g"; then
-        echo "Adding this header to all .java file in the project !"
+        echo "Adding this header to all $fileExt file in the project !"
 
         cat $headerFile
         echo "Adding headers ..."
 
-        for file in $(find ./ -name '*.java'); do
+        for file in $(find ./ -name "*$fileExt"); do
             if test "$(cat $file | head -n 1)" = "$(cat header.txt | head -n 1)"; then
                 echo "[!] Header already found in $file"
             else
@@ -39,7 +40,7 @@ function main () {
 
         echo "Removing all headers ..."
 
-        for file in $(find ./ -name '*.java'); do
+        for file in $(find ./ -name "*$fileExt"); do
             if test "$(cat $file | head -n 1)" = "$(cat header.txt | head -n 1)"; then
                 echo "$(tail -n +$headerLineCount $file)" > $file
                 echo "[OK] Removing in $file"
