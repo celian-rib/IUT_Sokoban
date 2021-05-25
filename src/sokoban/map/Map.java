@@ -48,7 +48,7 @@ public class Map {
      * @param position position to look for
      * @return the object at the given position
      */
-    public MapObject getObjectAtPosition(Vector2 position) {
+    private MapObject getObjectAtPosition(Vector2 position) {
         if (!containsPosition(position))
             return null;
         return map[position.y][position.x];
@@ -77,7 +77,7 @@ public class Map {
      * @throws InvalidPositionException
      * @throws UnsupportedOperationException
      */
-    public boolean handleMovePosibility(MovableObject object, Vector2 direction)
+    private boolean handleMovePosibility(MovableObject object, Vector2 direction)
             throws InvalidMoveException, InvalidPositionException, UnsupportedOperationException {
         Vector2 predictedPosition = object.getPosition().add(direction);
         MapObject objectAtPredictedPosition = getObjectAtPosition(predictedPosition);
@@ -157,19 +157,12 @@ public class Map {
      * @param position position to check
      * @return
      */
-    public boolean containsPosition(Vector2 position) {
+    private boolean containsPosition(Vector2 position) {
         if (position.x < 0 || position.y < 0)
             return false;
         if (position.x >= map[0].length || position.y >= map.length)
             return false;
         return true;
-    }
-
-    /**
-     * @return true if this map contains any boxes
-     */
-    public boolean hasBox() {
-        return getMapSet().stream().filter(o -> o.TYPE == MapObject.ObjectType.BOX).count() > 0;
     }
 
     /**
@@ -186,14 +179,19 @@ public class Map {
      * @return the actual object that is the player on the map null if not found
      */
     public Player getMapPlayer() {
-        return getMapSet().stream().filter(o -> o != null).filter(o -> o.getClass() == Player.class)
-                .map(Player.class::cast).findFirst().orElse(null);
+        return getMapSet()
+                .stream()
+                .filter(o -> o != null)
+                .filter(o -> o.getClass() == Player.class)
+                .map(Player.class::cast)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
      * @return the map 2d array in a one dimmensional HashSet
      */
-    public HashSet<MapObject> getMapSet() {
+    private HashSet<MapObject> getMapSet() {
         HashSet<MapObject> set = new HashSet<>();
         for (MapObject[] objs : map)
             set.addAll(Arrays.asList(objs));
