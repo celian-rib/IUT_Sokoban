@@ -11,6 +11,9 @@ package sokoban.map.mapObject;
 
 import sokoban.utils.Vector2;
 
+/**
+ * Wall map object
+ */
 public class Wall extends MapObject {
 
     public Wall(int x, int y) {

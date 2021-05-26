@@ -17,6 +17,10 @@ import sokoban.exceptions.*;
 import sokoban.map.mapObject.*;
 import sokoban.utils.Vector2;
 
+/**
+ * Class containing all the data related to the map content and its related methods
+ * that manage its content
+ */
 public class Map {
 
     /**

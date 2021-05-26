@@ -16,6 +16,9 @@ import sokoban.exceptions.BuilderException;
 import sokoban.map.mapDatabase.MapDatabase;
 import sokoban.map.mapObject.MapObject;
 
+/**
+ * Class that let you create a map from a map stored in a database
+ */
 public class MapFromDatabaseBuilder extends MapBuilder {
 
     private int mapId;

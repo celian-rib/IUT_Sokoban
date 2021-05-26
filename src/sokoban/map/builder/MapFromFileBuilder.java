@@ -17,6 +17,9 @@ import java.util.Scanner;
 import sokoban.exceptions.BuilderException;
 import sokoban.map.mapObject.MapObject;
 
+/**
+ * Class that let you create a map from a direct file path
+ */
 public class MapFromFileBuilder extends MapBuilder {
     String filePath;
 

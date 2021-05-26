@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import sokoban.utils.ScannerUtils;
 
+/**
+ * Class that contains the database administration specific entry point
+ * And all methods that let an admin user manage the database
+ */
 public class MapDatabaseAdministration {
 
     public static void main(String[] args) {
@@ -27,6 +31,10 @@ public class MapDatabaseAdministration {
         }
     }
 
+    /**
+     * Database administration menu
+     * @param db database to work with
+     */
     private static void drawAdministrationMenu(MapDatabase db) {
         System.out.println("DB Administration : ");
         System.out.println("O : Quit");
@@ -61,6 +69,10 @@ public class MapDatabaseAdministration {
         drawAdministrationMenu(db);
     }
 
+    /**
+     * Let you delete a map in the database from a user input in the terminal
+     * @param db database
+     */
     private static void deleteMap(MapDatabase db) {
         try {
             int id = ScannerUtils.awaitIntInRange("Id map : ", 0, db.getAvailableMapId() -1);
@@ -70,6 +82,10 @@ public class MapDatabaseAdministration {
         }
     }
 
+    /**
+     * Draw the database tables
+     * @param db the actual database
+     */
     private static void drawDb(MapDatabase db) {
         try {
             System.out.println();
@@ -85,6 +101,10 @@ public class MapDatabaseAdministration {
         }
     }
 
+    /**
+     * Add a map from a file path asked to the user
+     * @param db the actual database
+     */
     private static void askMapFromFile(MapDatabase db) {
         try {
             String name = ScannerUtils.awaitString("Map name :");
@@ -98,6 +118,11 @@ public class MapDatabaseAdministration {
         }
     }
 
+    /**
+     * Create a readable string representing one map in the database
+     * @param db database to work with
+     * @return formated string
+     */
     public static String mapTableString(MapDatabase db) {
         String result =
                 String.format("| %3s | %20s | %15s |", "id", "name", "difficulty").replace(' ', '-')
@@ -112,6 +137,11 @@ public class MapDatabaseAdministration {
         }
     }
 
+    /**
+     * Create a readable string representing one row in the database
+     * @param db database to work with
+     * @return formated string
+     */
     public static String rowsTableString(MapDatabase db) {
         String result =
                 String.format("| %6s | %6s | %30s |", "mapId", "rowId", "content").replace(' ', '-')
@@ -127,6 +157,13 @@ public class MapDatabaseAdministration {
         }
     }
 
+    /**
+     * Convert a file in an array of database row
+     * @param mapId id of the map the rows will belong to
+     * @param filePath path of the file to read
+     * @return array list of database rows
+     * @throws FileNotFoundException
+     */
     public static ArrayList<MapDatabase.Row> getRowsFromFile(int mapId, String filePath)
             throws FileNotFoundException {
         ArrayList<MapDatabase.Row> rows = new ArrayList<MapDatabase.Row>();

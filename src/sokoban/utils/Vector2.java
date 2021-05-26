@@ -11,6 +11,9 @@ package sokoban.utils;
 
 import java.util.HashMap;
 
+/**
+ * Vector2 is a direction a position object
+ */
 public class Vector2 {
 
     /**

@@ -16,6 +16,9 @@ import sokoban.map.*;
 import sokoban.map.mapObject.*;
 import sokoban.utils.*;
 
+/**
+ * Class that handle the program entry point and the game loop
+ */
 public class Sokoban {
 
     /**
@@ -24,27 +27,26 @@ public class Sokoban {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
         // ======== LOAD ONE MAP DIRECTLY ============
-        //try {
-        //var map = new Map(new sokoban.map.drawer.HighDetailsMapDrawer(),
-        //new sokoban.map.builder.MapFromFileBuilder("SokobanMaps/stucked__hard.txt"));
-        //gameLoop(map);
-        //} catch (Exception e) {
-        //e.printStackTrace();
-        //}
+        // try {
+        //     var map = new Map(new sokoban.map.drawer.HighDetailsMapDrawer(),
+        //     new sokoban.map.builder.MapFromFileBuilder("SokobanMaps/stucked__hard.txt"));
+        //     gameLoop(map);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
         // ======== LOAD ONE MAP DIRECTLY ============
 
         try {
-
+            //Retrieve map from the menu
             Map map = SokobanMenu.startSokobanMenu();
+            //Start the game with the selected map
             gameLoop(map);
-
         } catch (Exception e) {
-
             System.err.println(e.getMessage());
             for (StackTraceElement s : e.getStackTrace())
                 System.err.println(s.toString());
-
         }
     }
 

@@ -11,6 +11,9 @@ package sokoban.map.mapObject;
 
 import sokoban.utils.Vector2;
 
+/**
+ * Empty map object, used to represent an empty cell
+ */
 public class Empty extends MapObject {
 
     public Empty(int x, int y) {

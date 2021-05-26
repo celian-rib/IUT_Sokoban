@@ -11,6 +11,9 @@ package sokoban.map.mapObject;
 
 import sokoban.utils.Vector2;
 
+/**
+ * Player map object, this object is moovable
+ */
 public class Player extends MovableObject {
 
     public Player(int x, int y) {

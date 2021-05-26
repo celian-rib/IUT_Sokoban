@@ -11,6 +11,9 @@ package sokoban.utils;
 
 import java.util.Scanner;
 
+/**
+ * All utility method that wait for a specific user input in the terminal
+ */
 public class ScannerUtils {
 
     /**

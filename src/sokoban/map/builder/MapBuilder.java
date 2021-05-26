@@ -14,6 +14,9 @@ import java.util.Arrays;
 import sokoban.exceptions.BuilderException;
 import sokoban.map.mapObject.*;
 
+/**
+ * Abstract class containing the strucutral behaviour for creating a map (builder behaviour)
+ */
 public abstract class MapBuilder {
 
     /**

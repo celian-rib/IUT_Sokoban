@@ -12,6 +12,11 @@ package sokoban.map.mapDatabase;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Class containing all the logic and data for the database
+ * Every instance of this class has its own connection that is created
+ * while instanciated
+ */
 public class MapDatabase implements AutoCloseable {
 
     /**

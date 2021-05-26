@@ -19,6 +19,9 @@ import sokoban.map.drawer.*;
 import sokoban.utils.*;
 import sokoban.map.mapDatabase.*;
 
+/**
+ * All methods containing the game menu
+ */
 public class SokobanMenu {
 
     /**
