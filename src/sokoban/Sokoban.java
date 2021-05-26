@@ -14,7 +14,8 @@ import java.util.concurrent.*;
 import sokoban.exceptions.*;
 import sokoban.map.*;
 import sokoban.map.mapObject.*;
-import sokoban.utils.*;
+import sokoban.utils.Vector2;
+import sokoban.utils.ScannerUtils;
 
 /**
  * Class that handle the program entry point and the game loop

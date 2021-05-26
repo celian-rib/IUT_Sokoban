@@ -220,6 +220,7 @@ public class Map {
      * @throws BuilderException
      */
     public Map createCopyWithBaseComponent() throws BuilderException {
+        builder.resetStates();
         return new Map(drawer, builder);
     }
 }

@@ -13,11 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import sokoban.exceptions.*;
-import sokoban.map.*;
-import sokoban.map.builder.*;
-import sokoban.map.drawer.*;
+
 import sokoban.utils.*;
-import sokoban.map.mapDatabase.*;
+import sokoban.map.Map;
+import sokoban.map.builder.MapFromDatabaseBuilder;
+import sokoban.map.drawer.HighDetailsMapDrawer;
+import sokoban.map.drawer.LowDetailsMapDrawer;
+import sokoban.map.drawer.MapDrawer;
+import sokoban.map.mapDatabase.MapDatabase;
 
 /**
  * All methods containing the game menu

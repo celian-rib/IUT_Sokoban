@@ -69,4 +69,11 @@ public abstract class MapBuilder {
 
         return Arrays.copyOf(rawLine.toArray(), rawLine.size(), MapObject[].class);
     }
+    
+    /**
+     * Reset this drawer states
+     */
+    public void resetStates() {
+        this.mapHasPlayer = false;
+    }
 }
